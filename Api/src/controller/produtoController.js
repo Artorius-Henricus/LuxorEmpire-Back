@@ -23,7 +23,7 @@ server.post('/produto', async (req, resp) => {
     }
     catch (err){
         resp.status(400).send({
-            erro: 'Ocorreu um erro!'
+            erro: 'Ocorreu um erro'
         })
     }
 });
