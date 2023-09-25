@@ -8,6 +8,12 @@ export async function InserirProduto(nm_produto, ds_genero, ds_material, ds_cate
     return linhas[0];
 };
 
+export async function BuscarProduto() {
+    const comando = `SELECT * FROM tb_produto;`;
+    const [linhas] = await con.query(comando);
+    return linhas;
+};
+
 export async function InserirUsuario(nm_usuario, ds_cpf, ds_email, ds_telefone, dt_nascimento) {
     const comando = `
     INSERT INTO tb_usuario (nm_usuario, ds_cpf, ds_email, ds_telefone, dt_nascimento)

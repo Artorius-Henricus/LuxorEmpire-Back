@@ -1,7 +1,19 @@
 import {Router} from 'express';
-import { InserirProduto, InserirUsuario } from '../repository/produtoRepository.js';
+import { InserirProduto, InserirUsuario, BuscarProduto } from '../repository/produtoRepository.js';
 
 const server = Router();
+
+server.get('/produtos', async (req, resp) => {
+    try {
+        const resposta = await BuscarProduto();
+        resp.send(resposta);
+    }
+    catch (err){
+        resp.status(400).send({
+            erro: 'Ocorreu um erro!'
+        })
+    }
+});
 
 server.post('/produto', async (req, resp) => {
     try {
