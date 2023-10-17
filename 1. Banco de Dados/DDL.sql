@@ -26,7 +26,8 @@ CREATE TABLE tb_usuario (
 	ds_cpf varchar(200) NOT NULL,
 	ds_email varchar(200) NOT NULL,
 	ds_telefone varchar(200) NOT NULL,
-	dt_nascimento DATE NOT NULL
+	dt_nascimento DATE NOT NULL,
+	nr_senha INT
 );
 
 CREATE TABLE tb_endereco (
