@@ -1,4 +1,4 @@
-import {Router} from 'express';
+mport {Router} from 'express';
 import { InserirProduto, InserirUsuario, BuscarProduto } from '../repository/produtoRepository.js';
 
 const server = Router();
