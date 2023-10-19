@@ -27,7 +27,7 @@ CREATE TABLE tb_usuario (
 	ds_email varchar(200) NOT NULL,
 	ds_telefone varchar(200) NOT NULL,
 	dt_nascimento DATE NOT NULL,
-    ds_tipousuario varchar(200),
+    tp_usuario varchar(200),
 	nr_senha INT
 );
 
