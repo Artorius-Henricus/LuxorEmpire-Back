@@ -5,13 +5,13 @@ export async function userLogin(email, senha) {
        const command = `
        SELECT id_usuario  id,
               nm_usuario  nome,
-              ds_email    email,
+              ds_email    email
        FROM tb_usuario
-       WHERE  ds_email    = ?
-              ns_senha    = ?`
+       WHERE  ds_email    = ? and
+              nr_senha    = ?`
 
-    const [linhas] = await con.query(command, [email, senha])
-    return linhas;
+       const [linhas] = await con.query(command, [email, senha])
+       return linhas;
 };
 
 export async function userReg(email, nascimento, cpf, telefone, nome, senha) {

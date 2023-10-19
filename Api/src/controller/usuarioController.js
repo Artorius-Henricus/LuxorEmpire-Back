@@ -1,6 +1,21 @@
-import { userReg } from "../repository/usuarioRepository.js";
+import { userReg, userLogin } from "../repository/usuarioRepository.js";
 import { Router } from "express";
 const server = Router();
+
+server.post('/usuario/logar', async (req, resp) => {
+    try {
+        const {email, senha} = req.body;
+        const resposta = await userLogin(email, senha);
+        if (!resposta)
+            throw new Error('Credenciais Inválidas!');
+
+        resp.send(resposta);
+    }
+
+    catch (err) {
+        resp.status(500).send({ erro: err.message });
+    }
+})
 
 
 server.post('/usuario/registrar', async (req, resp) => {
@@ -60,7 +75,7 @@ server.post('/usuario/registrar', async (req, resp) => {
     }
     catch (err) {
         resp.status(500).send({ erro: err.message });
-      }
+    }
 })
 
 export default server;
