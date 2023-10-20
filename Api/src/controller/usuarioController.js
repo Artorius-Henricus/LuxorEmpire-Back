@@ -4,8 +4,8 @@ const server = Router();
 
 server.post('/usuario/logar', async (req, resp) => {
     try {
-        const {email, senha} = req.body;
-        const resposta = await userLogin(email, senha);
+        const {email, senha, cpf, nome} = req.body;
+        const resposta = await userLogin(email, senha, cpf, nome);
         if (!resposta)
             throw new Error('Credenciais Inválidas!');
 
@@ -27,7 +27,11 @@ server.post('/usuario/registrar', async (req, resp) => {
             throw new Error('Email é obrigatório!');
 
         if (!email.includes("@gmail.com") && !email.includes("@outlook.com"))
-            throw new Error('Não é um Email válido');
+            throw new Error('Não é um Email válido!');
+
+        if (!/^[^@]+@gmail\.com$/.test(email) && !/^[^@]+@outlook\.com$/.test(email)) {
+            throw new Error('Não é um Email válido!');
+        }
 
         
         // NASCIMENTO!!
