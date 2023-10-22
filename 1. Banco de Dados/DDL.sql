@@ -28,6 +28,7 @@ CREATE TABLE tb_usuario (
 	ds_telefone varchar(200) NOT NULL,
 	dt_nascimento DATE NOT NULL,
     tp_usuario varchar(200),
+	img_usuario varchar(800),
 	nr_senha INT
 );
 

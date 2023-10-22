@@ -3,9 +3,12 @@ import {con} from './connect.js'
 // :: LOGIN DO USUÁRIO ::
 export async function userLogin(email, senha, cpf, nome) {
        const command = `
-       SELECT id_usuario  id,
-              nm_usuario  nome,
-              ds_email    email
+       SELECT id_usuario    id,
+              nm_usuario    nome,
+                ds_email    email,
+              ds_telefone   telefone,
+            dt_nascimento   nascimento,
+                   ds_cpf   cpf
        FROM tb_usuario
        WHERE  ds_email    = ? and
               nr_senha    = ? and
@@ -24,3 +27,13 @@ export async function userReg(email, nascimento, cpf, telefone, nome, senha) {
        const [linhas] = await con.query(command, [nome, cpf, email, telefone, nascimento, senha])
        return linhas;
 };
+
+export async function enviarImagem(imagem, id) {
+       const command = `
+       UPDATE tb_usuario
+         SET img_usuario   = ?
+        WHERE id_usuario   = ?`
+
+       const [linhas] = await con.query(command, [imagem, id])
+       return linhas.affectedRows;
+}

@@ -11,6 +11,9 @@ server.use(express.json());
 // Endpoints
 server.use(usuarioController);
 
+// Imagens Liberar
+server.use('/storage/usersIcons', express.static('storage/usersIcons'))
+
 
 server.listen(process.env.PORT, () => {
     console.log("API ONLINE ON PORT "+process.env.PORT)
