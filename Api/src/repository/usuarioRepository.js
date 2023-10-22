@@ -8,8 +8,9 @@ export async function userLogin(email, senha, cpf, nome) {
                 ds_email    email,
               ds_telefone   telefone,
             dt_nascimento   nascimento,
-                   ds_cpf   cpf
-       FROM tb_usuario
+                   ds_cpf   cpf,
+              img_usuario   img
+          FROM tb_usuario
        WHERE  ds_email    = ? and
               nr_senha    = ? and
                 ds_cpf    = ? and
@@ -18,6 +19,17 @@ export async function userLogin(email, senha, cpf, nome) {
        const [linhas] = await con.query(command, [email, senha, cpf, nome])
        return linhas[0];
 };
+
+export async function dataIMG(id) {
+       const command = `
+       SELECT id_usuario    id,
+              img_usuario   img
+          FROM tb_usuario
+       WHERE  id_usuario = ?`
+
+       const [linhas] = await con.query(command, [id])
+       return linhas[0];
+}
 
 export async function userReg(email, nascimento, cpf, telefone, nome, senha) {
        const command = `

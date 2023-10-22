@@ -1,10 +1,22 @@
-import { userReg, userLogin, enviarImagem } from "../repository/usuarioRepository.js";
+import { userReg, userLogin, enviarImagem, dataIMG } from "../repository/usuarioRepository.js";
 import multer from 'multer';
 import { Router } from "express";
 
 const server = Router();
 
 const upload = multer({ dest: 'storage/usersIcons' });
+
+
+server.get('/usuario/info/:id', async (req, resp) => {
+    try {
+        const {id} = req.params;
+        const resposta = await dataIMG(id);
+        resp.send(resposta);
+    }
+    catch (err) {
+        resp.status(500).send({ erro: err.message });
+    }
+})
 
 server.post('/usuario/logar', async (req, resp) => {
     try {
@@ -88,6 +100,9 @@ server.post('/usuario/registrar', async (req, resp) => {
 
 server.put('/usuario/:id/imagem', upload.single('perfilimg') ,async (req, resp) => {
     try {
+        if (!req.file)
+            throw new Error("Não foi possível salvar a imagem!")
+        
         const {id} = req.params;
         const img = req.file.path;
 
