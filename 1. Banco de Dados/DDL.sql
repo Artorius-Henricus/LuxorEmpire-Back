@@ -56,14 +56,23 @@ CREATE TABLE tb_cartao (
     foreign key (id_usuario) references tb_usuario(id_usuario)
 );
 
+CREATE TABLE tb_pedido_item (
+	id_pedido_item INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+	id_pedido INT,
+	id_produto INT,
+	qtd_tens INT,
+	foreign key (id_pedido) references tb_pedido(id_pedido)
+);
+
 CREATE TABLE tb_pedido (
     id_pedido INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    dt_pedido DATE NOT NULL,
-    ds_status_pedido VARCHAR(100) NOT NULL,
-    nr_quantidade INT NOT NULL,
-    nr_preco_produto DECIMAL NOT NULL,
-    id_usuario INT NOT NULL,
-    id_produto INT NOT NULL,
+    id_usuario INT,
+	id_endereco INT,
+	ds_nota_fiscal VARCHAR(300),
+	tp_forma_pagamento VARCHAR(200),
+	qtd_parcelas INT,
+	dt_pedido DATE,
+	ds_situacao VARCHAR(200),
     foreign key (id_usuario) references tb_usuario(id_usuario),
-    foreign key (id_produto) references tb_produto(id_produto)
+    foreign key (id_endereco) references tb_endereco(id_endereco)
 );
