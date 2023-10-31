@@ -56,14 +56,6 @@ CREATE TABLE tb_cartao (
     foreign key (id_usuario) references tb_usuario(id_usuario)
 );
 
-CREATE TABLE tb_pedido_item (
-	id_pedido_item INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-	id_pedido INT,
-	id_produto INT,
-	qtd_tens INT,
-	foreign key (id_pedido) references tb_pedido(id_pedido)
-);
-
 CREATE TABLE tb_pedido (
     id_pedido INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
     id_usuario INT,
@@ -75,4 +67,12 @@ CREATE TABLE tb_pedido (
 	ds_situacao VARCHAR(200),
     foreign key (id_usuario) references tb_usuario(id_usuario),
     foreign key (id_endereco) references tb_endereco(id_endereco)
+);
+
+CREATE TABLE tb_pedido_item (
+	id_pedido_item INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+	id_pedido INT,
+	id_produto INT,
+	qtd_tens INT,
+	foreign key (id_pedido) references tb_pedido(id_pedido)
 );
