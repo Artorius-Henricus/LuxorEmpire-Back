@@ -65,7 +65,7 @@ CREATE TABLE tb_pedido (
 	qtd_parcelas INT,
 	dt_pedido DATE,
 	ds_situacao VARCHAR(200),
-    foreign key (id_usuario) references tb_usuario(id_usuario),
+    foreign key (id_usuario) references tb_1usuario(id_usuario),
     foreign key (id_endereco) references tb_endereco(id_endereco)
 );
 
