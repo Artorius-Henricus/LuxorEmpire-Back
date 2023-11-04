@@ -45,9 +45,8 @@ server.post('/usuario/registrar', async (req, resp) => {
         if (!email.includes("@gmail.com") && !email.includes("@outlook.com"))
             throw new Error('Não é um Email válido!');
 
-        if (!/^[^@]+@gmail\.com$/.test(email) && !/^[^@]+@outlook\.com$/.test(email)) {
+        if (!/^[^@]+@gmail\.com$/.test(email) && !/^[^@]+@outlook\.com$/.test(email))
             throw new Error('Não é um Email válido!');
-        }
 
         
         // NASCIMENTO!!
