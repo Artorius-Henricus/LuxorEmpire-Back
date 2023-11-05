@@ -1,6 +1,6 @@
 import {Router} from 'express';
 import multer from 'multer';
-import { CadastrarImagensProduto, CadastrarProduto, ConsultarProdutos, ProdutosInfo } from '../repository/produtoRepository.js';
+import { CadastrarImagensProduto, CadastrarProduto, ConsultarProdutos, ProdutosInfo, ConsultarImagem } from '../repository/produtoRepository.js';
 
 const server = Router();
 
