@@ -1,6 +1,6 @@
 import {Router} from 'express';
 import multer from 'multer';
-import { CadastrarImagensProduto, CadastrarProduto, ConsultarProdutos, ProdutosInfo, ConsultarImagem } from '../repository/produtoRepository.js';
+import { CadastrarImagensProduto, CadastrarProduto, ConsultarProdutos, ProdutosInfo } from '../repository/produtoRepository.js';
 
 const server = Router();
 
@@ -11,20 +11,6 @@ server.get('/produto/:id', async (req, resp) => {
         const {id} = req.params
 
         const resposta = await ProdutosInfo(id);
-        resp.send(resposta);
-    }
-    catch (err) {
-        resp.status(400).send({
-            erro: err.message
-        })
-    }
-})
-
-server.get('/produto/imagem/:id', async (req, resp) => {
-    try {
-        const {id} = req.params
-
-        const resposta = await ConsultarImagem(id);
         resp.send(resposta);
     }
     catch (err) {
@@ -48,15 +34,15 @@ server.get('/produto/consultar/:categoria', async (req, resp) => {
     }
 })
 
-server.post('/produto/:id/imagens', upload.single('prodimg') ,async (req, resp) => {
+server.post('/produto/:id/imagens/:campo', upload.single('prodimg') ,async (req, resp) => {
     try {
         if (!req.file)
             throw new Error("Não foi possível salvar a imagem!")
         
-        const {id} = req.params;
+        const {id, campo} = req.params;
         const img = req.file.path;
 
-        const resposta = await CadastrarImagensProduto(img, id);
+        const resposta = await CadastrarImagensProduto(img, id, campo);
         if (resposta != 1)
             throw new Error("Não foi possível salvar a imagem!")
         resp.status(204).send();

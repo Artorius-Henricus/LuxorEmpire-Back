@@ -11,23 +11,14 @@ export async function CadastrarProduto(produto) {
     return produto;
 }
 
-export async function CadastrarImagensProduto(imagem, id) {
+export async function CadastrarImagensProduto(imagem, id, campo) {
     const command = `
-    INSERT INTO tb_imagem (ds_url, id_produto)
-    VALUES (?, ?)`
+    UPDATE tb_produto
+    SET ${campo} = ?
+    WHERE id_produto = ?`
  
     const [linhas] = await con.query(command, [imagem, id])
     return linhas.affectedRows;
-}
-
-export async function ConsultarImagem(id) {
-    const command = `
-    SELECT ds_url URL
-    FROM tb_imagem
-    WHERE id_produto = ?`
- 
-    const [linhas] = await con.query(command, [id])
-    return linhas;
 }
 
 export async function ConsultarProdutos(categoria) {
@@ -58,7 +49,12 @@ export async function ProdutosInfo(id) {
            ds_categoria    Categoria, 
            ds_gema         Gema, 
            nr_preco        Preço, 
-           ds_descricao    Descrição
+           ds_descricao    Descrição,
+           ds_capa         Capa,
+           ds_imagem1      Imagem1,
+           ds_imagem2      Imagem2,
+           ds_imagem3      Imagem3,
+           ds_imagem4      Imagem4
     FROM tb_produto
     WHERE id_produto = ?`
 

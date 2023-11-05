@@ -10,14 +10,12 @@ CREATE TABLE tb_produto (
 	ds_categoria varchar(200) NOT NULL,
 	ds_gema varchar(200) NOT NULL,
 	nr_preco DECIMAL NOT NULL,
-	ds_descricao varchar(300) NOT NULL
-);
-
-CREATE TABLE tb_imagem (
-	id_imagem INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-	ds_url varchar(500) NOT NULL,
-	id_produto INT NOT NULL,
-    foreign key (id_produto) references tb_produto(id_produto)
+	ds_descricao varchar(300) NOT NULL,
+	ds_capa varchar(500),
+    ds_imagem1 varchar(500),
+    ds_imagem2 varchar(500),
+    ds_imagem3 varchar(500),
+    ds_imagem4 varchar(500)
 );
 
 CREATE TABLE tb_usuario (
@@ -65,7 +63,7 @@ CREATE TABLE tb_pedido (
 	qtd_parcelas INT,
 	dt_pedido DATE,
 	ds_situacao VARCHAR(200),
-    foreign key (id_usuario) references tb_1usuario(id_usuario),
+    foreign key (id_usuario) references tb_usuario(id_usuario),
     foreign key (id_endereco) references tb_endereco(id_endereco)
 );
 
