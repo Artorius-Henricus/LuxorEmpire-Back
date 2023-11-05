@@ -1,10 +1,38 @@
 import {Router} from 'express';
 import multer from 'multer';
-import { CadastrarImagensProduto, CadastrarProduto } from '../repository/produtoRepository.js';
+import { CadastrarImagensProduto, CadastrarProduto, ConsultarProdutos, ProdutosInfo } from '../repository/produtoRepository.js';
 
 const server = Router();
 
 const upload = multer({ dest: 'storage/productImages' });
+
+server.get('/produto/:id', async (req, resp) => {
+    try {
+        const {id} = req.params
+
+        const resposta = await ProdutosInfo(id);
+        resp.send(resposta);
+    }
+    catch (err) {
+        resp.status(400).send({
+            erro: err.message
+        })
+    }
+})
+
+server.get('/produto/consultar/:categoria', async (req, resp) => {
+    try {
+        const {categoria} = req.params
+
+        const resposta = await ConsultarProdutos(categoria);
+        resp.send(resposta);
+    }
+    catch (err) {
+        resp.status(400).send({
+            erro: err.message
+        })
+    }
+})
 
 server.post('/produto/:id/imagens', upload.single('prodimg') ,async (req, resp) => {
     try {
