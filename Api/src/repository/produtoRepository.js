@@ -20,6 +20,16 @@ export async function CadastrarImagensProduto(imagem, id) {
     return linhas.affectedRows;
 }
 
+export async function ConsultarImagem(id) {
+    const command = `
+    SELECT ds_url URL
+    FROM tb_imagem
+    WHERE id_produto = ?`
+ 
+    const [linhas] = await con.query(command, [id])
+    return linhas;
+}
+
 export async function ConsultarProdutos(categoria) {
     const command = `
     SELECT 
@@ -53,5 +63,5 @@ export async function ProdutosInfo(id) {
     WHERE id_produto = ?`
 
     const [linhas] = await con.query(command, [id])
-    return linhas
+    return linhas[0]
 };

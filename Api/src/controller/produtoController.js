@@ -20,6 +20,20 @@ server.get('/produto/:id', async (req, resp) => {
     }
 })
 
+server.get('/produto/imagem/:id', async (req, resp) => {
+    try {
+        const {id} = req.params
+
+        const resposta = await ConsultarImagem(id);
+        resp.send(resposta);
+    }
+    catch (err) {
+        resp.status(400).send({
+            erro: err.message
+        })
+    }
+})
+
 server.get('/produto/consultar/:categoria', async (req, resp) => {
     try {
         const {categoria} = req.params
