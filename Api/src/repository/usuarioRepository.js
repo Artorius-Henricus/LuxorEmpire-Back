@@ -48,4 +48,17 @@ export async function enviarImagem(imagem, id) {
 
        const [linhas] = await con.query(command, [imagem, id])
        return linhas.affectedRows;
+};
+
+export async function AtualizarPerfil(id, nome, cpf, email, telefone, nascimento) {
+       const command = `
+       UPDATE tb_usuario
+         SET   nm_usuario = ?,
+                 ds_email = ?,
+              ds_telefone = ?,
+            dt_nascimento = ?,
+                   ds_cpf = ?
+        WHERE id_usuario  = ?`
+       const [linhas] = await con.query(command, [nome, email, telefone, nascimento, cpf, id]);
+       return linhas;
 }
