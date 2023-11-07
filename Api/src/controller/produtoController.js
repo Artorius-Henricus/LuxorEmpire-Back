@@ -1,6 +1,6 @@
 import {Router} from 'express';
 import multer from 'multer';
-import { CadastrarImagensProduto, CadastrarProduto, ConsultarProdutos, ProdutosInfo } from '../repository/produtoRepository.js';
+import { AtualizarProduto, CadastrarImagensProduto, CadastrarProduto, ConsultarProdutos, ProdutosInfo } from '../repository/produtoRepository.js';
 
 const server = Router();
 
@@ -87,7 +87,39 @@ server.post('/produto/registrar', async (req, resp) => {
     }
 })
 
+server.post('/produto/atualizar/:id', async (req, resp) => {
+    try {
+        const produtonewinfo = req.body;
+        const {id} = req.params;
 
+        if (produtonewinfo.nome == undefined || produtonewinfo.nome == '')
+            throw new Error('É necessário preencher o nome!');
+        
+        if (produtonewinfo.genero == undefined || produtonewinfo.genero == '')
+            throw new Error('É necessário preencher o gênero!');
+
+        if (produtonewinfo.material == undefined || produtonewinfo.material == '')
+            throw new Error('É necessário preencher o material!');
+
+        if (produtonewinfo.categoria == undefined || produtonewinfo.categoria == '')
+            throw new Error('É necessário preencher a categoria');
+
+        if (produtonewinfo.gema == undefined || produtonewinfo.gema == '')
+            throw new Error('É necessário preencher a gema!');
+
+        if (produtonewinfo.preco == undefined || produtonewinfo.preco == '')
+            throw new Error('É necessário preencher o preço!');
+
+        if (produtonewinfo.descricao == undefined || produtonewinfo.descricao == '')
+            throw new Error('É necessário preencher a descrição!');
+
+        const resposta = await AtualizarProduto(produtonewinfo, id);
+        resp.send(resposta);
+    }
+    catch (err) {
+        resp.status(500).send({ erro: err.message });
+    }
+})
 
 
 

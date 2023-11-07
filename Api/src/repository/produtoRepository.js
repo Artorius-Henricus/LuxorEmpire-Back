@@ -21,6 +21,22 @@ export async function CadastrarImagensProduto(imagem, id, campo) {
     return linhas.affectedRows;
 }
 
+export async function AtualizarProduto(produtonewinfo, id) {
+    const command = `
+    UPDATE tb_produto
+    SET nm_produto   = ?,
+        ds_genero    = ?,
+        ds_material  = ?,
+        ds_categoria = ?,
+        ds_gema      = ?,
+        nr_preco     = ?,
+        ds_descricao = ?
+    WHERE id_produto = ?`
+ 
+    const [linhas] = await con.query(command, [produtonewinfo.nome, produtonewinfo.genero, produtonewinfo.material, produtonewinfo.categoria, produtonewinfo.gema, produtonewinfo.preco, produtonewinfo.descricao, id])
+    return linhas;
+}
+
 export async function ConsultarProdutos(categoria) {
     const command = `
     SELECT 
