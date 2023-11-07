@@ -1,4 +1,4 @@
-import { userReg, userLogin, enviarImagem, dataIMG, AtualizarPerfil } from "../repository/usuarioRepository.js";
+import { userReg, userLogin, enviarImagem, dataIMG, AtualizarPerfil, CadastrarCartao } from "../repository/usuarioRepository.js";
 import multer from 'multer';
 import { Router } from "express";
 
@@ -48,7 +48,6 @@ server.post('/usuario/registrar', async (req, resp) => {
         if (!/^[^@]+@gmail\.com$/.test(email) && !/^[^@]+@outlook\.com$/.test(email))
             throw new Error('Não é um Email válido!');
 
-        
         // NASCIMENTO!!
         if (nascimento == undefined || nascimento == '')
             throw new Error('Nascimento é obrigatório!');
@@ -163,6 +162,43 @@ server.put('/usuario/:id/imagem', upload.single('perfilimg') ,async (req, resp) 
         const resposta = await enviarImagem(img, id);
         if (resposta != 1)
             throw new Error("Não foi possível salvar a imagem!")
+        resp.status(204).send();
+    }
+    catch (err) {
+        resp.status(400).send({
+            erro: err.message
+        })
+    }
+})
+
+server.post('/usuario/cartao/cadastrar/:id',async (req, resp) => {
+    try {
+        const {id} = req.params;
+        const cartaoinfo = req.body;
+
+        
+        if (cartaoinfo.numero == undefined || cartaoinfo.numero == '')
+            throw new Error('O Número Deve ser Preenchido');
+
+
+
+        if (cartaoinfo.nome == undefined || cartaoinfo.nome == '')
+            throw new Error('O Nome Deve ser Preenchido');
+
+
+
+        if (cartaoinfo.data == undefined || cartaoinfo.data == '')
+            throw new Error('A Data de Expiração Deve ser Preenchida');
+
+
+
+        if (cartaoinfo.cvv == undefined || cartaoinfo.cvv == '')
+            throw new Error('O CVV Deve ser Preenchido');
+
+        if (isNaN(cartaoinfo.cvv))
+            throw new Error('O CVV Deve ser um Número');
+
+        const resposta = await CadastrarCartao(cartaoinfo, id);
         resp.status(204).send();
     }
     catch (err) {

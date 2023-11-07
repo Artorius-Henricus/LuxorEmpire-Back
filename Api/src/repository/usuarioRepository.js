@@ -61,4 +61,12 @@ export async function AtualizarPerfil(id, nome, cpf, email, telefone, nascimento
         WHERE id_usuario  = ?`
        const [linhas] = await con.query(command, [nome, email, telefone, nascimento, cpf, id]);
        return linhas;
+};
+
+export async function CadastrarCartao(info, id) {
+       const command = `
+       INSERT INTO tb_cartao(nr_cartao, nm_cartao, dt_expiracao, ds_cvv , id_usuario)
+       VALUES (?, ?, ?, ?, ?)`
+       const [linhas] = await con.query(command, [info.numero, info.nome, info.data, info.cvv, id]);
+       return linhas;
 }

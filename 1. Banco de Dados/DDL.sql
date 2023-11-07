@@ -46,9 +46,9 @@ CREATE TABLE tb_endereco (
 
 CREATE TABLE tb_cartao (
 	id_cartao INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-	nr_cartao INT NOT NULL,
+	nr_cartao VARCHAR(100) NOT NULL,
 	nm_cartao varchar(200) NOT NULL,
-	dt_expiracao DATE NOT NULL,
+	dt_expiracao varchar(50) NOT NULL,
 	ds_cvv INT NOT NULL,
 	id_usuario INT NOT NULL,
     foreign key (id_usuario) references tb_usuario(id_usuario)
