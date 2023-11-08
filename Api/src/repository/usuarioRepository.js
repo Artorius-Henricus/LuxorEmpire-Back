@@ -70,3 +70,37 @@ export async function CadastrarCartao(info, id) {
        const [linhas] = await con.query(command, [info.numero, info.nome, info.data, info.cvv, id]);
        return linhas;
 }
+
+export async function ConsultarCartao(id) {
+       const command = `
+       SELECT nm_cartao     Nome,
+       RIGHT(nr_cartao, 4)  Cartao
+       FROM tb_cartao
+       WHERE id_usuario = ?`
+       const [linhas] = await con.query(command, [id]);
+       return linhas;
+}
+
+export async function ConsultarEndereco(id) {
+       const command = `
+       SELECT ds_regiao Regiao, 
+       nm_nome          Nome, 
+       ds_cep           CEP, 
+       ds_endereco      Rua, 
+       nr_residencia    NRua, 
+       ds_bairro        Bairro, 
+       ds_cidade        Cidade, 
+       ds_estado        Estado
+       FROM tb_endereco
+       WHERE id_usuario = ?`
+       const [linhas] = await con.query(command, [id]);
+       return linhas;
+}
+
+export async function CadastrarEndereço(info, id) {
+       const command = `
+       INSERT INTO tb_endereco(ds_regiao, nm_nome, ds_cep, ds_endereco, nr_residencia, ds_bairro, ds_cidade, ds_estado, id_usuario)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`
+       const [linhas] = await con.query(command, [info.regiao, info.nome, info.cep, info.endereco, info.residencia, info.bairro, info.cidade, info.estado, id]);
+       return linhas;
+}

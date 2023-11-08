@@ -11,7 +11,7 @@ server.use(express.json());
 
 // Endpoints
 server.use(usuarioController);
-server.use(produtoController)
+server.use(produtoController);
 
 // Imagens Liberar
 server.use('/storage/usersIcons', express.static('storage/usersIcons'));

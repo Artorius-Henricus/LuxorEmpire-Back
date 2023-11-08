@@ -1,4 +1,4 @@
-import { userReg, userLogin, enviarImagem, dataIMG, AtualizarPerfil, CadastrarCartao } from "../repository/usuarioRepository.js";
+import { userReg, userLogin, enviarImagem, dataIMG, AtualizarPerfil, ConsultarCartao, ConsultarEndereco } from "../repository/usuarioRepository.js";
 import multer from 'multer';
 import { Router } from "express";
 
@@ -17,6 +17,7 @@ server.get('/usuario/info/:id', async (req, resp) => {
         resp.status(500).send({ erro: err.message });
     }
 })
+
 
 server.post('/usuario/logar', async (req, resp) => {
     try {
@@ -171,6 +172,18 @@ server.put('/usuario/:id/imagem', upload.single('perfilimg') ,async (req, resp) 
     }
 })
 
+server.get('/usuario/cartao/consultar/:id', async (req, resp) => {
+    try {
+        const {id} = req.params;
+
+        const resposta = await ConsultarCartao(id);
+        resp.send(resposta);
+    }
+    catch (err) {
+        resp.status(500).send({ erro: err.message });
+    }
+})
+
 server.post('/usuario/cartao/cadastrar/:id',async (req, resp) => {
     try {
         const {id} = req.params;
@@ -199,6 +212,55 @@ server.post('/usuario/cartao/cadastrar/:id',async (req, resp) => {
             throw new Error('O CVV Deve ser um Número');
 
         const resposta = await CadastrarCartao(cartaoinfo, id);
+        resp.status(204).send();
+    }
+    catch (err) {
+        resp.status(400).send({
+            erro: err.message
+        })
+    }
+})
+
+server.get('/usuario/endereco/consultar/:id', async (req, resp) => {
+    try {
+        const {id} = req.params;
+
+        const resposta = await ConsultarEndereco(id);
+        resp.send(resposta);
+    }
+    catch (err) {
+        resp.status(500).send({ erro: err.message });
+    }
+})
+
+
+server.post('/usuario/endereco/cadastrar/:id',async (req, resp) => {
+    try {
+        const {id} = req.params;
+        const enderecoinfo = req.body;
+
+        if (enderecoinfo.regiao == undefined || enderecoinfo.regiao == '')
+            throw new Error('A Região Deve ser Preenchido');
+
+        if (enderecoinfo.nome == undefined || enderecoinfo.nome == '')
+            throw new Error('O Nome Deve ser Preenchido');
+        
+        if (enderecoinfo.cep == undefined || enderecoinfo.cep == '')
+            throw new Error('O CEP Deve ser Preenchido');
+
+        if (isNaN(enderecoinfo.cep))
+            throw new Error('O CEP Deve ser um Número');
+
+        if (enderecoinfo.endereco == undefined || enderecoinfo.endereco == '')
+            throw new Error('O Endereço Deve ser Preenchido');
+
+        if (enderecoinfo.residencia == undefined || enderecoinfo.residencia == '')
+            throw new Error('O Número da Residência Deve ser Preenchido');
+
+        if (isNaN(enderecoinfo.residencia))
+            throw new Error('O Número da Residência Deve ser um Número');
+
+        const resposta = await CadastrarEndereço(enderecoinfo, id);
         resp.status(204).send();
     }
     catch (err) {
