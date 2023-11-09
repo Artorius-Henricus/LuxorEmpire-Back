@@ -1,4 +1,4 @@
-import { userReg, userLogin, enviarImagem, dataIMG, AtualizarPerfil, ConsultarCartao, ConsultarEndereco } from "../repository/usuarioRepository.js";
+import { userReg, userLogin, enviarImagem, dataIMG, AtualizarPerfil, ConsultarCartao, ConsultarEndereco, CadastrarCartao, CadastrarEndereço } from "../repository/usuarioRepository.js";
 import multer from 'multer';
 import { Router } from "express";
 
