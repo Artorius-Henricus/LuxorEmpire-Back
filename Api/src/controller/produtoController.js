@@ -1,6 +1,6 @@
 import {Router} from 'express';
 import multer from 'multer';
-import { AtualizarProduto, CadastrarImagensProduto, CadastrarProduto, ConsultarProdutos, ProdutosInfo } from '../repository/produtoRepository.js';
+import { AdicionarCarrinho, AllProdutos, AtualizarProduto, CadastrarImagensProduto, CadastrarProduto, ConsultarProdutos, ProdutosInfo } from '../repository/produtoRepository.js';
 
 const server = Router();
 
@@ -121,8 +121,34 @@ server.post('/produto/atualizar/:id', async (req, resp) => {
     }
 })
 
+server.get("/produtos/all", async (req, resp) => {
+    try {
+        
+        const resposta = await AllProdutos();
+        resp.send(resposta);
+    }
+    catch (err) {
+        resp.status(400).send({
+            erro: err.message
+        })
+    }
+})
 
 
+server.post("/produto/carrinho/add/:id", async (req, resp) => {
+    try {
+        const {id} = req.params;
+        const datas = req.body;
+
+        const resposta = await AdicionarCarrinho(datas, id);
+        resp.send(resposta)
+    }
+    catch (err) {
+        resp.status(400).send({
+            erro: err.message
+        })
+    }
+})
 
 
 

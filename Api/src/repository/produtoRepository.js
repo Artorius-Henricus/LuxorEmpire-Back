@@ -77,3 +77,30 @@ export async function ProdutosInfo(id) {
     const [linhas] = await con.query(command, [id])
     return linhas[0]
 };
+
+export async function AllProdutos() {
+    const command = `
+    SELECT 
+           id_produto      Id,
+           nm_produto      Nome, 
+           ds_genero       Gênero, 
+           ds_material     Material, 
+           ds_categoria    Categoria, 
+           ds_gema         Gema, 
+           nr_preco        Preço, 
+           ds_descricao    Descrição,
+           ds_capa         Capa
+    FROM tb_produto`
+
+    const [linhas] = await con.query(command, [])
+    return linhas;
+};
+
+export async function AdicionarCarrinho(data, id) {
+    const command = `
+    INSERT INTO tb_pedido_item(id_produto, qtd_itens, id_usuario)
+    VALUES(?, ?, ?)`
+
+    const [linhas] = await con.query(command, [id, data.qtd, data.user])
+    return linhas;
+};
