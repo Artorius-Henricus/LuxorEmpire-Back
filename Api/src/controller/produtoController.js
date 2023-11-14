@@ -1,6 +1,6 @@
 import {Router} from 'express';
 import multer from 'multer';
-import { AdicionarCarrinho, AllProdutos, AtualizarProduto, CadastrarImagensProduto, CadastrarProduto, ConsultarProdutos, ProdutosInfo } from '../repository/produtoRepository.js';
+import { AdicionarCarrinho, AllProdutos, AlterarQuantidade, AtualizarProduto, CadastrarImagensProduto, CadastrarProduto, ConsultarCarrinho, ConsultarProdutos, DeletarCarrinho, ProdutosInfo } from '../repository/produtoRepository.js';
 
 const server = Router();
 
@@ -150,6 +150,47 @@ server.post("/produto/carrinho/add/:id", async (req, resp) => {
     }
 })
 
+server.get("/produto/carrinho/consulta/:id", async (req, resp) => {
+    try {
+        const {id} = req.params;
+
+        const resposta = await ConsultarCarrinho(id);
+        resp.send(resposta)
+    }
+    catch (err) {
+        resp.status(400).send({
+            erro: err.message
+        })
+    }
+})
+
+server.put("/produto/carrinho/alterar/:iditem/:qtditems", async (req, resp) => {
+    try {
+        const {iditem, qtditems} = req.params;
+
+        const resposta = await AlterarQuantidade(qtditems, iditem);
+        resp.send(resposta)
+    }
+    catch (err) {
+        resp.status(400).send({
+            erro: err.message
+        })
+    }
+})
+
+server.delete("/produto/carrinho/deletar/:iditem/", async (req, resp) => {
+    try {
+        const {iditem} = req.params;
+
+        const resposta = await DeletarCarrinho(iditem);
+        resp.send(resposta)
+    }
+    catch (err) {
+        resp.status(400).send({
+            erro: err.message
+        })
+    }
+})
 
 
 export default server;

@@ -104,3 +104,35 @@ export async function AdicionarCarrinho(data, id) {
     const [linhas] = await con.query(command, [id, data.qtd, data.user])
     return linhas;
 };
+
+export async function ConsultarCarrinho(id) {
+    const command = `
+    SELECT 
+        id_pedido_item  itemid, 
+        id_produto      prodid, 
+        qtd_itens       quantd
+    FROM tb_pedido_item
+    WHERE id_usuario = ?`
+
+    const [linhas] = await con.query(command, [id])
+    return linhas;
+};
+
+export async function DeletarCarrinho(id) {
+    const command = `
+    DELETE FROM tb_pedido_item
+    WHERE id_pedido_item = ?`
+
+    const [linhas] = await con.query(command, [id])
+    return linhas;
+};
+
+export async function AlterarQuantidade(quantidade, idproduto) {
+    const command = `
+    UPDATE tb_pedido_item
+    SET qtd_itens =?
+    WHERE id_pedido_item = ?`
+
+    const [linhas] = await con.query(command, [quantidade, idproduto])
+    return linhas;
+};
