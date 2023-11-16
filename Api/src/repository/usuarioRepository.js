@@ -73,7 +73,8 @@ export async function CadastrarCartao(info, id) {
 
 export async function ConsultarCartao(id) {
        const command = `
-       SELECT nm_cartao     Nome,
+       SELECT id_cartao Id,
+       nm_cartao     Nome,
        RIGHT(nr_cartao, 4)  Cartao
        FROM tb_cartao
        WHERE id_usuario = ?`
@@ -83,7 +84,8 @@ export async function ConsultarCartao(id) {
 
 export async function ConsultarEndereco(id) {
        const command = `
-       SELECT ds_regiao Regiao, 
+       SELECT id_endereco Id,
+       ds_regiao Regiao, 
        nm_nome          Nome, 
        ds_cep           CEP, 
        ds_endereco      Rua, 
@@ -103,4 +105,12 @@ export async function CadastrarEndereço(info, id) {
        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`
        const [linhas] = await con.query(command, [info.regiao, info.nome, info.cep, info.endereco, info.residencia, info.bairro, info.cidade, info.estado, id]);
        return linhas;
-}
+};
+
+export async function FinalizarCompra(id, comprainfo) {
+       const command = `
+       INSERT INTO tb_pedido (id_pedido, id_usuario, id_endereco, id_cartao, tp_forma_pagamento, qtd_parcelas, dt_pedido, ds_situacao)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?)`
+       const [linhas] = await con.query(command, [comprainfo.pedido, id, comprainfo.endereco, comprainfo.cartao, comprainfo.frmpagamento, comprainfo.parcelas, comprainfo.dtpedido, comprainfo.situacao]);
+       return linhas;
+};

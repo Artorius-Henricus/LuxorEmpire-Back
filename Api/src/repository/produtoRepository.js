@@ -136,3 +136,13 @@ export async function AlterarQuantidade(quantidade, idproduto) {
     const [linhas] = await con.query(command, [quantidade, idproduto])
     return linhas;
 };
+
+export async function AlterarId(idpedido, idpedidoitem) {
+    const command = `
+    UPDATE tb_pedido_item
+    SET id_pedido = ?
+    WHERE id_pedido_item = ?`
+
+    const [linhas] = await con.query(command, [idpedido, idpedidoitem])
+    return linhas;
+};

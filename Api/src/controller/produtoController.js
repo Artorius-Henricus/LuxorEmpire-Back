@@ -1,6 +1,6 @@
 import {Router} from 'express';
 import multer from 'multer';
-import { AdicionarCarrinho, AllProdutos, AlterarQuantidade, AtualizarProduto, CadastrarImagensProduto, CadastrarProduto, ConsultarCarrinho, ConsultarProdutos, DeletarCarrinho, ProdutosInfo } from '../repository/produtoRepository.js';
+import { AdicionarCarrinho, AllProdutos, AlterarId, AlterarQuantidade, AtualizarProduto, CadastrarImagensProduto, CadastrarProduto, ConsultarCarrinho, ConsultarProdutos, DeletarCarrinho, ProdutosInfo } from '../repository/produtoRepository.js';
 
 const server = Router();
 
@@ -191,6 +191,20 @@ server.delete("/produto/carrinho/deletar/:iditem/", async (req, resp) => {
         })
     }
 })
+
+server.put("/produto/carrinho/atualizarpedido/:id", async (req, resp) => {
+    try {
+        const { id } = req.params; // Corrigido de iditem para id
+        const { pedido } = req.body; // Corrigido para corresponder ao nome do campo no corpo
+
+        const resposta = await AlterarId(pedido.idd, id);
+        resp.send(resposta);
+    } catch (err) {
+        resp.status(400).send({
+            erro: err.message
+        });
+    }
+});
 
 
 export default server;

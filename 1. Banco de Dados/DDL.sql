@@ -55,11 +55,10 @@ CREATE TABLE tb_cartao (
 );
 
 CREATE TABLE tb_pedido (
-    id_pedido INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    id_pedido VARCHAR(300) PRIMARY KEY NOT NULL,
     id_usuario INT,
 	id_endereco INT,
     id_cartao INT,
-	ds_nota_fiscal VARCHAR(300),
 	tp_forma_pagamento VARCHAR(200),
 	qtd_parcelas INT,
 	dt_pedido DATE,
@@ -71,7 +70,7 @@ CREATE TABLE tb_pedido (
 
 CREATE TABLE tb_pedido_item (
 	id_pedido_item INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-	id_pedido INT,
+	id_pedido VARCHAR(300),
 	id_produto INT,
 	qtd_itens INT,
     id_usuario INT,

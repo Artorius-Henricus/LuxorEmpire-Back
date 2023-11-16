@@ -1,4 +1,4 @@
-import { userReg, userLogin, enviarImagem, dataIMG, AtualizarPerfil, ConsultarCartao, ConsultarEndereco, CadastrarCartao, CadastrarEndereço } from "../repository/usuarioRepository.js";
+import { userReg, userLogin, enviarImagem, dataIMG, AtualizarPerfil, ConsultarCartao, ConsultarEndereco, CadastrarCartao, CadastrarEndereço, FinalizarCompra } from "../repository/usuarioRepository.js";
 import multer from 'multer';
 import { Router } from "express";
 
@@ -261,6 +261,28 @@ server.post('/usuario/endereco/cadastrar/:id',async (req, resp) => {
             throw new Error('O Número da Residência Deve ser um Número');
 
         const resposta = await CadastrarEndereço(enderecoinfo, id);
+        resp.status(204).send();
+    }
+    catch (err) {
+        resp.status(400).send({
+            erro: err.message
+        })
+    }
+})
+
+server.post('/usuario/compra/pagamento/:id',async (req, resp) => {
+    try {
+        const {id} = req.params;
+        const comprainfo = req.body;
+
+        if (comprainfo.endereco == undefined || comprainfo.endereco == '')
+            throw new Error('Um endereço deve ser selecionado!');
+
+        if (comprainfo.cartao == undefined || comprainfo.cartao == '')
+            throw new Error('Um cartão deve ser selecionado!');
+
+
+        const resposta = await FinalizarCompra(id, comprainfo);
         resp.status(204).send();
     }
     catch (err) {
