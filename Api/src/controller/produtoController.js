@@ -195,9 +195,9 @@ server.delete("/produto/carrinho/deletar/:iditem/", async (req, resp) => {
 server.put("/produto/carrinho/atualizarpedido/:id", async (req, resp) => {
     try {
         const { id } = req.params; // Corrigido de iditem para id
-        const { pedido } = req.body; // Corrigido para corresponder ao nome do campo no corpo
+        const {chave} = req.body // Corrigido para corresponder ao nome do campo no corpo
 
-        const resposta = await AlterarId(pedido.idd, id);
+        const resposta = await AlterarId(chave, id);
         resp.send(resposta);
     } catch (err) {
         resp.status(400).send({
