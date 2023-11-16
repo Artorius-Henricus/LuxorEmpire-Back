@@ -1,4 +1,4 @@
-import { userReg, userLogin, enviarImagem, dataIMG, AtualizarPerfil, ConsultarCartao, ConsultarEndereco, CadastrarCartao, CadastrarEndereço, FinalizarCompra, ConsultarCompra, ConsultarEndereco2, ConsultarCartao2 } from "../repository/usuarioRepository.js";
+import { userReg, userLogin, enviarImagem, dataIMG, AtualizarPerfil, ConsultarCartao, ConsultarEndereco, CadastrarCartao, CadastrarEndereço, FinalizarCompra, ConsultarCompra, ConsultarEndereco2, ConsultarCartao2, ConsultarCompra2 } from "../repository/usuarioRepository.js";
 import multer from 'multer';
 import { Router } from "express";
 
@@ -322,6 +322,21 @@ server.get('/usuario/compra/consulta/:id',async (req, resp) => {
 
 
         const resposta = await ConsultarCompra(id);
+        resp.send(resposta);
+    }
+    catch (err) {
+        resp.status(400).send({
+            erro: err.message
+        })
+    }
+})
+
+server.get('/usuario/compra/consulta2/:id',async (req, resp) => {
+    try {
+        const {id} = req.params;
+
+
+        const resposta = await ConsultarCompra2(id);
         resp.send(resposta);
     }
     catch (err) {

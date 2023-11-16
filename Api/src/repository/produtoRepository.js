@@ -75,7 +75,7 @@ export async function ProdutosInfo(id) {
     WHERE id_produto = ?`
 
     const [linhas] = await con.query(command, [id])
-    return linhas[0]
+    return linhas[0];
 };
 
 export async function AllProdutos() {

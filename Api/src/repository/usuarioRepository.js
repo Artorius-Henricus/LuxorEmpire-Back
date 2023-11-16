@@ -158,3 +158,19 @@ export async function ConsultarCompra(id) {
        const [linhas] = await con.query(command, [id]);
        return linhas[0];
 };
+
+export async function ConsultarCompra2(id) {
+       const command = `
+       SELECT id_pedido     IDPED, 
+       id_usuario           IDUSER, 
+       id_endereco          IDENDR, 
+       id_cartao            IDCART, 
+       tp_forma_pagamento   FRMPAG, 
+       qtd_parcelas         PARCLS, 
+       dt_pedido            DTPED, 
+       ds_situacao          SITUACAO
+       FROM tb_pedido
+       WHERE id_usuario = ?`
+       const [linhas] = await con.query(command, [id]);
+       return linhas;
+};
