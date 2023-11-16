@@ -82,6 +82,23 @@ export async function ConsultarCartao(id) {
        return linhas;
 }
 
+export async function DeletarCartao(id) {
+       const command = `
+       UPDATE tb_pedido SET id_cartao = null WHERE id_cartao = ?`
+   
+       const [linhas] = await con.query(command, [id])
+       return linhas;
+};
+
+export async function DeletarCartao2(id) {
+       const command = `
+       DELETE FROM tb_cartao
+       WHERE id_cartao = ?`
+   
+       const [linhas] = await con.query(command, [id])
+       return linhas;
+};
+
 export async function ConsultarCartao2(id) {
        const command = `
        SELECT id_cartao Id,

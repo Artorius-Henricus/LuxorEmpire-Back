@@ -105,6 +105,8 @@ export async function AdicionarCarrinho(data, id) {
     return linhas;
 };
 
+
+
 export async function ConsultarCarrinho(id) {
     const command = `
     SELECT 
