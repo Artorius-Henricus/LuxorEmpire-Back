@@ -1,4 +1,4 @@
-import { userReg, userLogin, enviarImagem, dataIMG, AtualizarPerfil, ConsultarCartao, ConsultarEndereco, CadastrarCartao, CadastrarEndereço, FinalizarCompra } from "../repository/usuarioRepository.js";
+import { userReg, userLogin, enviarImagem, dataIMG, AtualizarPerfil, ConsultarCartao, ConsultarEndereco, CadastrarCartao, CadastrarEndereço, FinalizarCompra, ConsultarCompra, ConsultarEndereco2, ConsultarCartao2 } from "../repository/usuarioRepository.js";
 import multer from 'multer';
 import { Router } from "express";
 
@@ -184,6 +184,18 @@ server.get('/usuario/cartao/consultar/:id', async (req, resp) => {
     }
 })
 
+server.get('/usuario/cartao/consultar2/:id', async (req, resp) => {
+    try {
+        const {id} = req.params;
+
+        const resposta = await ConsultarCartao2(id);
+        resp.send(resposta);
+    }
+    catch (err) {
+        resp.status(500).send({ erro: err.message });
+    }
+})
+
 server.post('/usuario/cartao/cadastrar/:id',async (req, resp) => {
     try {
         const {id} = req.params;
@@ -226,6 +238,18 @@ server.get('/usuario/endereco/consultar/:id', async (req, resp) => {
         const {id} = req.params;
 
         const resposta = await ConsultarEndereco(id);
+        resp.send(resposta);
+    }
+    catch (err) {
+        resp.status(500).send({ erro: err.message });
+    }
+})
+
+server.get('/usuario/endereco/consultar2/:id', async (req, resp) => {
+    try {
+        const {id} = req.params;
+
+        const resposta = await ConsultarEndereco2(id);
         resp.send(resposta);
     }
     catch (err) {
@@ -284,6 +308,21 @@ server.post('/usuario/compra/pagamento/:id',async (req, resp) => {
 
         const resposta = await FinalizarCompra(id, comprainfo);
         resp.status(204).send();
+    }
+    catch (err) {
+        resp.status(400).send({
+            erro: err.message
+        })
+    }
+})
+
+server.get('/usuario/compra/consulta/:id',async (req, resp) => {
+    try {
+        const {id} = req.params;
+
+
+        const resposta = await ConsultarCompra(id);
+        resp.send(resposta);
     }
     catch (err) {
         resp.status(400).send({

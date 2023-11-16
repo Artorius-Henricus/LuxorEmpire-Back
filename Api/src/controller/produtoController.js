@@ -1,6 +1,6 @@
 import {Router} from 'express';
 import multer from 'multer';
-import { AdicionarCarrinho, AllProdutos, AlterarId, AlterarQuantidade, AtualizarProduto, CadastrarImagensProduto, CadastrarProduto, ConsultarCarrinho, ConsultarProdutos, DeletarCarrinho, ProdutosInfo } from '../repository/produtoRepository.js';
+import { AdicionarCarrinho, AllProdutos, AlterarId, AlterarQuantidade, AtualizarProduto, CadastrarImagensProduto, CadastrarProduto, ConsultarCarrinho, ConsultarCarrinho2, ConsultarCarrinho3, ConsultarProdutos, DeletarCarrinho, ProdutosInfo } from '../repository/produtoRepository.js';
 
 const server = Router();
 
@@ -155,6 +155,34 @@ server.get("/produto/carrinho/consulta/:id", async (req, resp) => {
         const {id} = req.params;
 
         const resposta = await ConsultarCarrinho(id);
+        resp.send(resposta)
+    }
+    catch (err) {
+        resp.status(400).send({
+            erro: err.message
+        })
+    }
+})
+
+server.get("/produto/carrinho/consulta2/:id", async (req, resp) => {
+    try {
+        const {id} = req.params;
+
+        const resposta = await ConsultarCarrinho2(id);
+        resp.send(resposta)
+    }
+    catch (err) {
+        resp.status(400).send({
+            erro: err.message
+        })
+    }
+})
+
+server.get("/produto/carrinho/consulta3/:id", async (req, resp) => {
+    try {
+        const {id} = req.params;
+
+        const resposta = await ConsultarCarrinho3(id);
         resp.send(resposta)
     }
     catch (err) {

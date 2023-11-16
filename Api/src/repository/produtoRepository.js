@@ -108,11 +108,40 @@ export async function AdicionarCarrinho(data, id) {
 export async function ConsultarCarrinho(id) {
     const command = `
     SELECT 
+        id_pedido       IDMAIN,
         id_pedido_item  itemid, 
         id_produto      prodid, 
         qtd_itens       quantd
     FROM tb_pedido_item
     WHERE id_usuario = ?`
+
+    const [linhas] = await con.query(command, [id])
+    return linhas;
+};
+
+export async function ConsultarCarrinho2(id) {
+    const command = `
+    SELECT 
+        id_pedido       IDMAIN,
+        id_pedido_item  itemid, 
+        id_produto      prodid, 
+        qtd_itens       quantd
+    FROM tb_pedido_item
+    WHERE id_usuario = ? and id_pedido is null`
+
+    const [linhas] = await con.query(command, [id])
+    return linhas;
+};
+
+export async function ConsultarCarrinho3(id) {
+    const command = `
+    SELECT 
+        id_pedido       IDMAIN,
+        id_pedido_item  itemid, 
+        id_produto      prodid, 
+        qtd_itens       quantd
+    FROM tb_pedido_item
+    WHERE id_pedido = ?`
 
     const [linhas] = await con.query(command, [id])
     return linhas;

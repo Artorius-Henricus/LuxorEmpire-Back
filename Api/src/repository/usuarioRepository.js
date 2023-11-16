@@ -82,6 +82,17 @@ export async function ConsultarCartao(id) {
        return linhas;
 }
 
+export async function ConsultarCartao2(id) {
+       const command = `
+       SELECT id_cartao Id,
+       nm_cartao     Nome,
+       RIGHT(nr_cartao, 4)  Cartao
+       FROM tb_cartao
+       WHERE id_cartao = ?`
+       const [linhas] = await con.query(command, [id]);
+       return linhas[0];
+}
+
 export async function ConsultarEndereco(id) {
        const command = `
        SELECT id_endereco Id,
@@ -99,6 +110,23 @@ export async function ConsultarEndereco(id) {
        return linhas;
 }
 
+export async function ConsultarEndereco2(id) {
+       const command = `
+       SELECT id_endereco Id,
+       ds_regiao Regiao, 
+       nm_nome          Nome, 
+       ds_cep           CEP, 
+       ds_endereco      Rua, 
+       nr_residencia    NRua, 
+       ds_bairro        Bairro, 
+       ds_cidade        Cidade, 
+       ds_estado        Estado
+       FROM tb_endereco
+       WHERE id_endereco = ?`
+       const [linhas] = await con.query(command, [id]);
+       return linhas[0];
+}
+
 export async function CadastrarEndereço(info, id) {
        const command = `
        INSERT INTO tb_endereco(ds_regiao, nm_nome, ds_cep, ds_endereco, nr_residencia, ds_bairro, ds_cidade, ds_estado, id_usuario)
@@ -113,4 +141,20 @@ export async function FinalizarCompra(id, comprainfo) {
        VALUES (?, ?, ?, ?, ?, ?, ?, ?)`
        const [linhas] = await con.query(command, [comprainfo.pedido, id, comprainfo.endereco, comprainfo.cartao, comprainfo.frmpagamento, comprainfo.parcelas, comprainfo.dtpedido, comprainfo.situacao]);
        return linhas;
+};
+
+export async function ConsultarCompra(id) {
+       const command = `
+       SELECT id_pedido     IDPED, 
+       id_usuario           IDUSER, 
+       id_endereco          IDENDR, 
+       id_cartao            IDCART, 
+       tp_forma_pagamento   FRMPAG, 
+       qtd_parcelas         PARCLS, 
+       dt_pedido            DTPED, 
+       ds_situacao          SITUACAO
+       FROM tb_pedido
+       WHERE id_pedido = ?`
+       const [linhas] = await con.query(command, [id]);
+       return linhas[0];
 };
