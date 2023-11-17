@@ -221,7 +221,7 @@ export async function ConsultarPedidos() {
        ds_situacao          SITUACAO
        FROM tb_pedido`
        const [linhas] = await con.query(command, []);
-       return linhas[0];
+       return linhas;
 };
 
 export async function AdminLogin(nome, senha) {
@@ -240,4 +240,45 @@ export async function AdminLogin(nome, senha) {
 
        const [linhas] = await con.query(command, [nome, senha])
        return linhas[0];
+};
+
+export async function ConsultarPedidosAndamento() {
+       const command = `
+       SELECT id_pedido     IDPED, 
+       id_usuario           IDUSER, 
+       id_endereco          IDENDR, 
+       id_cartao            IDCART, 
+       tp_forma_pagamento   FRMPAG, 
+       qtd_parcelas         PARCLS, 
+       dt_pedido            DTPED, 
+       ds_situacao          SITUACAO
+       FROM tb_pedido
+       WHERE ds_situacao != "Pedido Entregue"`
+       const [linhas] = await con.query(command, []);
+       return linhas;
+};
+
+export async function ConsultarPedidosConcluído() {
+       const command = `
+       SELECT id_pedido     IDPED, 
+       id_usuario           IDUSER, 
+       id_endereco          IDENDR, 
+       id_cartao            IDCART, 
+       tp_forma_pagamento   FRMPAG, 
+       qtd_parcelas         PARCLS, 
+       dt_pedido            DTPED, 
+       ds_situacao          SITUACAO
+       FROM tb_pedido
+       WHERE ds_situacao = "Pedido Entregue"`
+       const [linhas] = await con.query(command, []);
+       return linhas;
+};
+
+export async function AtualizarPedidosConcluído(situacao, idpedido) {
+       const command = `
+       UPDATE tb_pedido 
+         SET ds_situacao   = ?
+        WHERE id_pedido   = ?`
+       const [linhas] = await con.query(command, [situacao, idpedido]);
+       return linhas;
 };

@@ -1,4 +1,4 @@
-import { userReg, userLogin, enviarImagem, dataIMG, AtualizarPerfil, ConsultarCartao, ConsultarEndereco, CadastrarCartao, CadastrarEndereço, FinalizarCompra, ConsultarCompra, ConsultarEndereco2, ConsultarCartao2, ConsultarCompra2, DeletarCartao, DeletarCartao2, DeletarEndereco, DeletarEndereco2, ConsultarPedidos, AdminLogin } from "../repository/usuarioRepository.js";
+import { userReg, userLogin, enviarImagem, dataIMG, AtualizarPerfil, ConsultarCartao, ConsultarEndereco, CadastrarCartao, CadastrarEndereço, FinalizarCompra, ConsultarCompra, ConsultarEndereco2, ConsultarCartao2, ConsultarCompra2, DeletarCartao, DeletarCartao2, DeletarEndereco, DeletarEndereco2, ConsultarPedidos, AdminLogin, ConsultarPedidosAndamento, ConsultarPedidosConcluído, AtualizarPedidosConcluído } from "../repository/usuarioRepository.js";
 import multer from 'multer';
 import { Router } from "express";
 
@@ -372,9 +372,48 @@ server.get('/usuario/compra/consulta2/:id',async (req, resp) => {
     }
 })
 
-server.get('/usuario/pedidos',async (req, resp) => {
+server.get('/admin/pedidos',async (req, resp) => {
     try {
         const resposta = await ConsultarPedidos();
+        resp.send(resposta);
+    }
+    catch (err) {
+        resp.status(400).send({
+            erro: err.message
+        })
+    }
+})
+
+server.get('/admin/pedidos/andamento',async (req, resp) => {
+    try {
+        const resposta = await ConsultarPedidosAndamento();
+        resp.send(resposta);
+    }
+    catch (err) {
+        resp.status(400).send({
+            erro: err.message
+        })
+    }
+})
+
+server.put('/admin/pedidos/atualizar/:id',async (req, resp) => {
+    try {
+        const {id} = req.params;
+        const {code} = req.body;
+
+        const resposta = await AtualizarPedidosConcluído(code, id);
+        resp.send(resposta);
+    }
+    catch (err) {
+        resp.status(400).send({
+            erro: err.message
+        })
+    }
+})
+
+server.get('/admin/pedidos/concluido',async (req, resp) => {
+    try {
+        const resposta = await ConsultarPedidosConcluído();
         resp.send(resposta);
     }
     catch (err) {
