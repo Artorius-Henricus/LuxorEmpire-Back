@@ -208,3 +208,36 @@ export async function ConsultarCompra2(id) {
        const [linhas] = await con.query(command, [id]);
        return linhas;
 };
+
+export async function ConsultarPedidos() {
+       const command = `
+       SELECT id_pedido     IDPED, 
+       id_usuario           IDUSER, 
+       id_endereco          IDENDR, 
+       id_cartao            IDCART, 
+       tp_forma_pagamento   FRMPAG, 
+       qtd_parcelas         PARCLS, 
+       dt_pedido            DTPED, 
+       ds_situacao          SITUACAO
+       FROM tb_pedido`
+       const [linhas] = await con.query(command, []);
+       return linhas[0];
+};
+
+export async function AdminLogin(nome, senha) {
+       const command = `
+       SELECT id_usuario    id,
+              nm_usuario    nome,
+                ds_email    email,
+              ds_telefone   telefone,
+            dt_nascimento   nascimento,
+                   ds_cpf   cpf,
+              img_usuario   img
+          FROM tb_usuario
+       WHERE  ds_email    = ? and
+              nr_senha    = ? and
+              tp_usuario  = 'Admin'`
+
+       const [linhas] = await con.query(command, [nome, senha])
+       return linhas[0];
+};

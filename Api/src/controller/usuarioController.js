@@ -1,4 +1,4 @@
-import { userReg, userLogin, enviarImagem, dataIMG, AtualizarPerfil, ConsultarCartao, ConsultarEndereco, CadastrarCartao, CadastrarEndereço, FinalizarCompra, ConsultarCompra, ConsultarEndereco2, ConsultarCartao2, ConsultarCompra2, DeletarCartao, DeletarCartao2, DeletarEndereco, DeletarEndereco2 } from "../repository/usuarioRepository.js";
+import { userReg, userLogin, enviarImagem, dataIMG, AtualizarPerfil, ConsultarCartao, ConsultarEndereco, CadastrarCartao, CadastrarEndereço, FinalizarCompra, ConsultarCompra, ConsultarEndereco2, ConsultarCartao2, ConsultarCompra2, DeletarCartao, DeletarCartao2, DeletarEndereco, DeletarEndereco2, ConsultarPedidos, AdminLogin } from "../repository/usuarioRepository.js";
 import multer from 'multer';
 import { Router } from "express";
 
@@ -369,6 +369,34 @@ server.get('/usuario/compra/consulta2/:id',async (req, resp) => {
         resp.status(400).send({
             erro: err.message
         })
+    }
+})
+
+server.get('/usuario/pedidos',async (req, resp) => {
+    try {
+        const resposta = await ConsultarPedidos();
+        resp.send(resposta);
+    }
+    catch (err) {
+        resp.status(400).send({
+            erro: err.message
+        })
+    }
+})
+
+
+server.post('/admin/logar', async (req, resp) => {
+    try {
+        const {nome, senha} = req.body;
+        const resposta = await AdminLogin(nome, senha);
+        if (!resposta)
+            throw new Error('Credenciais Inválidas!');
+
+        resp.send(resposta);
+    }
+
+    catch (err) {
+        resp.status(500).send({ erro: err.message });
     }
 })
 

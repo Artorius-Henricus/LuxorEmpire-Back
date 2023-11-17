@@ -68,6 +68,9 @@ CREATE TABLE tb_pedido (
     foreign key (id_endereco) references tb_endereco(id_endereco)
 );
 
+INSERT INTO tb_usuario (nm_usuario, ds_cpf, ds_email, ds_telefone, dt_nascimento, tp_usuario, nr_senha)
+VALUES ("Admin", 12312312312, "admin@gmail.com", 12312312312, "2006-08-07", "Admin", 123456789);
+
 CREATE TABLE tb_pedido_item (
 	id_pedido_item INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
 	id_pedido VARCHAR(300),
