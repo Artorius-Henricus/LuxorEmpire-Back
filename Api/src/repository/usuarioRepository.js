@@ -160,6 +160,23 @@ export async function FinalizarCompra(id, comprainfo) {
        return linhas;
 };
 
+export async function DeletarEndereco(id) {
+       const command = `
+       UPDATE tb_pedido SET id_endereco = null WHERE id_endereco = ?`
+   
+       const [linhas] = await con.query(command, [id])
+       return linhas;
+};
+
+export async function DeletarEndereco2(id) {
+       const command = `
+       DELETE FROM tb_endereco
+       WHERE id_endereco = ?`
+   
+       const [linhas] = await con.query(command, [id])
+       return linhas;
+};
+
 export async function ConsultarCompra(id) {
        const command = `
        SELECT id_pedido     IDPED, 

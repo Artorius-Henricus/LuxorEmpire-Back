@@ -78,23 +78,54 @@ export async function ProdutosInfo(id) {
     return linhas[0];
 };
 
-export async function AllProdutos() {
-    const command = `
-    SELECT 
-           id_produto      Id,
-           nm_produto      Nome, 
-           ds_genero       Gênero, 
-           ds_material     Material, 
-           ds_categoria    Categoria, 
-           ds_gema         Gema, 
-           nr_preco        Preço, 
-           ds_descricao    Descrição,
-           ds_capa         Capa
-    FROM tb_produto`
-
-    const [linhas] = await con.query(command, [])
+export async function AllProdutos(
+    categoria = null,
+    material = null,
+    gema = null
+  ) {
+    const conditions = [];
+  
+    let command = `
+      SELECT 
+             id_produto      Id,
+             nm_produto      Nome, 
+             ds_genero       Gênero, 
+             ds_material     Material, 
+             ds_categoria    Categoria, 
+             ds_gema         Gema, 
+             nr_preco        Preço, 
+             ds_descricao    Descrição,
+             ds_capa         Capa
+      FROM tb_produto`;
+  
+    if (categoria != null) {
+      conditions.push(1);
+      command += ` WHERE ds_categoria = '${categoria}'`;
+    }
+  
+    if (material != null) {
+      if (conditions.length >= 1) {
+        command += `AND ds_material =  '${material}'`;
+      } else {
+        conditions.push(1);
+        command += ` WHERE ds_material = '${material}'`;
+      }
+    }
+  
+    if (gema != null) {
+      if (conditions.length >= 1) {
+        command += `AND ds_gema =  '${gema}'`;
+      } else {
+        conditions.push(1);
+        command += ` WHERE ds_gema = '${gema}'`;
+      }
+    }
+  
+    command += ";";
+  
+    const [linhas] = await con.query(command, []);
     return linhas;
-};
+  }
 
 export async function AdicionarCarrinho(data, id) {
     const command = `
@@ -105,6 +136,24 @@ export async function AdicionarCarrinho(data, id) {
     return linhas;
 };
 
+export async function FindProduct(name) {
+    let command = `
+        SELECT 
+               id_produto      Id,
+               nm_produto      Nome, 
+               ds_genero       Gênero, 
+               ds_material     Material, 
+               ds_categoria    Categoria, 
+               ds_gema         Gema, 
+               nr_preco        Preço, 
+               ds_descricao    Descrição,
+               ds_capa         Capa
+        FROM tb_produto
+        WHERE nm_produto LIKE '%${name}%'`;
+  
+    const [linhas] = await con.query(command, []);
+    return linhas;
+  }
 
 
 export async function ConsultarCarrinho(id) {

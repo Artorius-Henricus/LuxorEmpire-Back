@@ -1,6 +1,6 @@
 import {Router} from 'express';
 import multer from 'multer';
-import { AdicionarCarrinho, AllProdutos, AlterarId, AlterarQuantidade, AtualizarProduto, CadastrarImagensProduto, CadastrarProduto, ConsultarCarrinho, ConsultarCarrinho2, ConsultarCarrinho3, ConsultarProdutos, DeletarCarrinho, ProdutosInfo } from '../repository/produtoRepository.js';
+import { AdicionarCarrinho, AllProdutos, AlterarId, AlterarQuantidade, AtualizarProduto, CadastrarImagensProduto, CadastrarProduto, ConsultarCarrinho, ConsultarCarrinho2, ConsultarCarrinho3, ConsultarProdutos, DeletarCarrinho, FindProduct, ProdutosInfo } from '../repository/produtoRepository.js';
 
 const server = Router();
 
@@ -121,18 +121,31 @@ server.post('/produto/atualizar/:id', async (req, resp) => {
     }
 })
 
+server.get("/produtos/find", async (req, resp) => {
+    try {
+      const resposta = await FindProduct(req.query.name);
+      resp.send(resposta);
+    } catch (error) {
+      resp.status(400).send({
+        erro: error.message,
+      });
+    }
+  });
+
 server.get("/produtos/all", async (req, resp) => {
     try {
-        
-        const resposta = await AllProdutos();
-        resp.send(resposta);
+      let categoria = req.query.categoria;
+      let material = req.query.material;
+      let gema = req.query.gema;
+  
+      const resposta = await AllProdutos(categoria, material, gema);
+      resp.send(resposta);
+    } catch (err) {
+      resp.status(400).send({
+        erro: err.message,
+      });
     }
-    catch (err) {
-        resp.status(400).send({
-            erro: err.message
-        })
-    }
-})
+  });
 
 
 server.post("/produto/carrinho/add/:id", async (req, resp) => {

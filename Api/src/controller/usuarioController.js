@@ -1,4 +1,4 @@
-import { userReg, userLogin, enviarImagem, dataIMG, AtualizarPerfil, ConsultarCartao, ConsultarEndereco, CadastrarCartao, CadastrarEndereço, FinalizarCompra, ConsultarCompra, ConsultarEndereco2, ConsultarCartao2, ConsultarCompra2, DeletarCartao, DeletarCartao2 } from "../repository/usuarioRepository.js";
+import { userReg, userLogin, enviarImagem, dataIMG, AtualizarPerfil, ConsultarCartao, ConsultarEndereco, CadastrarCartao, CadastrarEndereço, FinalizarCompra, ConsultarCompra, ConsultarEndereco2, ConsultarCartao2, ConsultarCompra2, DeletarCartao, DeletarCartao2, DeletarEndereco, DeletarEndereco2 } from "../repository/usuarioRepository.js";
 import multer from 'multer';
 import { Router } from "express";
 
@@ -251,6 +251,19 @@ server.get('/usuario/endereco/consultar/:id', async (req, resp) => {
         const {id} = req.params;
 
         const resposta = await ConsultarEndereco(id);
+        resp.send(resposta);
+    }
+    catch (err) {
+        resp.status(500).send({ erro: err.message });
+    }
+})
+
+server.delete('/usuario/endereco/deletar/:id', async (req, resp) => {
+    try {
+        const {id} = req.params;
+
+        const resposta = await DeletarEndereco(id);
+        resposta = await DeletarEndereco2(id);
         resp.send(resposta);
     }
     catch (err) {
