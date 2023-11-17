@@ -282,3 +282,27 @@ export async function AtualizarPedidosConcluído(situacao, idpedido) {
        const [linhas] = await con.query(command, [situacao, idpedido]);
        return linhas;
 };
+
+export async function CriarNotificacao(notificacao, iduser, idpedido) {
+       const command = `
+       INSERT INTO tb_notificacoes (ds_notificacao, id_usuario, id_pedido)
+       VALUES (?, ?, ?)`
+       const [linhas] = await con.query(command, [notificacao, iduser, idpedido]);
+       return linhas;
+};
+
+export async function BuscarNotificacoes(iduser) {
+       const command = `
+       SELECT * FROM tb_notificacoes
+       WHERE id_usuario = ?`
+       const [linhas] = await con.query(command, [iduser]);
+       return linhas;
+};
+
+export async function ApagarNotificacoes(iduser) {
+       const command = `
+       DELETE FROM tb_notificacoes
+       WHERE id_notificacao = ?`
+       const [linhas] = await con.query(command, [iduser]);
+       return linhas;
+};

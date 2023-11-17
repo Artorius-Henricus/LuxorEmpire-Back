@@ -80,3 +80,12 @@ CREATE TABLE tb_pedido_item (
     foreign key (id_usuario) references tb_usuario(id_usuario),
 	foreign key (id_pedido) references tb_pedido(id_pedido)
 );
+
+CREATE TABLE tb_notificacoes (
+	id_notificacao INT PRIMARY KEY NOT NULL auto_increment,
+    ds_notificacao VARCHAR(300),
+    id_usuario INT,
+    id_pedido VARCHAR(300),
+    foreign key (id_usuario) references tb_usuario(id_usuario),
+	foreign key (id_pedido) references tb_pedido(id_pedido)
+);

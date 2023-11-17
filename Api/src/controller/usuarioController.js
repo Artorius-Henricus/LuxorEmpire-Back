@@ -1,4 +1,4 @@
-import { userReg, userLogin, enviarImagem, dataIMG, AtualizarPerfil, ConsultarCartao, ConsultarEndereco, CadastrarCartao, CadastrarEndereço, FinalizarCompra, ConsultarCompra, ConsultarEndereco2, ConsultarCartao2, ConsultarCompra2, DeletarCartao, DeletarCartao2, DeletarEndereco, DeletarEndereco2, ConsultarPedidos, AdminLogin, ConsultarPedidosAndamento, ConsultarPedidosConcluído, AtualizarPedidosConcluído } from "../repository/usuarioRepository.js";
+import { userReg, userLogin, enviarImagem, dataIMG, AtualizarPerfil, ConsultarCartao, ConsultarEndereco, CadastrarCartao, CadastrarEndereço, FinalizarCompra, ConsultarCompra, ConsultarEndereco2, ConsultarCartao2, ConsultarCompra2, DeletarCartao, DeletarCartao2, DeletarEndereco, DeletarEndereco2, ConsultarPedidos, AdminLogin, ConsultarPedidosAndamento, ConsultarPedidosConcluído, AtualizarPedidosConcluído, CriarNotificacao, BuscarNotificacoes, ApagarNotificacoes } from "../repository/usuarioRepository.js";
 import multer from 'multer';
 import { Router } from "express";
 
@@ -399,9 +399,38 @@ server.get('/admin/pedidos/andamento',async (req, resp) => {
 server.put('/admin/pedidos/atualizar/:id',async (req, resp) => {
     try {
         const {id} = req.params;
-        const {code} = req.body;
+        const {code, user} = req.body;
 
         const resposta = await AtualizarPedidosConcluído(code, id);
+        resposta = await CriarNotificacao(code, user, id);
+        resp.send(resposta);
+    }
+    catch (err) {
+        resp.status(400).send({
+            erro: err.message
+        })
+    }
+})
+
+server.get('/usuario/pedidos/notificacao/:id',async (req, resp) => {
+    try {
+        const {id} = req.params;
+
+        const resposta = await BuscarNotificacoes(id);
+        resp.send(resposta);
+    }
+    catch (err) {
+        resp.status(400).send({
+            erro: err.message
+        })
+    }
+})
+
+server.delete('/usuario/pedidos/notificacao/:id',async (req, resp) => {
+    try {
+        const {id} = req.params;
+        
+        const resposta = await ApagarNotificacoes(id);
         resp.send(resposta);
     }
     catch (err) {
